@@ -25,6 +25,7 @@
  * @property string $comments
  * @property boolean $switchable
  * @property boolean $dimable
+ * @property boolean $multivaluedim
  * @property boolean $extcode
  * @property integer $x
  * @property integer $y
@@ -230,7 +231,7 @@ class Devices extends CActiveRecord {
         return array(
             array('devicetype_id, location_id, instance_id, interface_id, tampered, extcode, x, y, floorplan_id, repeatperiod, resetperiod, poll', 'numerical', 'integerOnly' => true),
             array('name, onicon, officon, dimicon, batterystatus', 'length', 'max' => 32),
-            array('enabled, hide, switchable, dimable, extcode, repeatstate, reset', 'boolean', 'trueValue' => -1),
+            array('enabled, hide, switchable, dimable, multivaluedim, extcode, repeatstate, reset', 'boolean', 'trueValue' => -1),
             array('name', 'notOnlyNumbers'),
             array('address', 'length', 'max' => 64),
             array('groups', 'length', 'max' => 128),
@@ -240,7 +241,7 @@ class Devices extends CActiveRecord {
 //			array('address', 'unique'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, address, devicetype_id, location, onicon, officon, dimicon, interface_id, firstseen, lastseen, enabled, hide, groups, batterystatus, tampered, comments, switchable, dimable, extcode, x, y, floorplan, lastchanged, repeatstate, repeatperiod, reset, resetperiod, resetvalue, poll', 'safe', 'on' => 'search'),
+            array('id, name, address, devicetype_id, location, onicon, officon, dimicon, interface_id, firstseen, lastseen, enabled, hide, groups, batterystatus, tampered, comments, switchable, dimable, multivaluedim, extcode, x, y, floorplan, lastchanged, repeatstate, repeatperiod, reset, resetperiod, resetvalue, poll', 'safe', 'on' => 'search'),
         );
     }
 
@@ -305,6 +306,7 @@ class Devices extends CActiveRecord {
             'comments' => Yii::t('app', 'Comments'),
             'switchable' => Yii::t('app', 'Device can be switched'),
             'dimable' => Yii::t('app', 'Device can be dimmed'),
+	    'multivaluedim' => Yii::t('app', 'Use different values for on/off and dim'),
             'extcode' => Yii::t('app', 'Supports extended X10'),
             'x' => Yii::t('app', 'X'),
             'y' => Yii::t('app', 'Y'),
@@ -349,6 +351,7 @@ class Devices extends CActiveRecord {
         $criteria->compare('comments', $this->comments, true);
         $criteria->compare('switchable', $this->switchable);
         $criteria->compare('dimable', $this->dimable);
+	$criteria->compare('multivaluedim', $this->multivaluedim);
         $criteria->compare('extcode', $this->extcode);
         $criteria->compare('x', $this->x);
         $criteria->compare('y', $this->y);

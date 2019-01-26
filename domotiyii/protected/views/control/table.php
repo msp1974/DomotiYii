@@ -292,14 +292,16 @@ $this->widget('bootstrap.widgets.TbNav', array(
                 .on('slideStop', function(ev) {
             var action = ev.value;
             var device = $(this).data('device');
+	    var sliderType = $(this).data('slider-type');
 
-            if (action == 0) {
-                action = "Off";
-            } else if (action == 100) {
-                action = "On";
-            } else {
-                action = "Dim " + action;
-            }
+	    if (sliderType != -1 && action == 0) {
+	        action = "Off";
+	    } else if (sliderType != -1 && action == 100) {
+	        action = "On";
+	    } else {
+	        action = "Dim " + action;
+	    }
+
             $.get('<?php echo Yii::app()->request->baseUrl; ?>/AjaxUtil/setDevice', {device: device, action: action},
             function(data) {
                 if (data.result) {
@@ -311,7 +313,11 @@ $this->widget('bootstrap.widgets.TbNav', array(
                 $('.lastChanged').html('DF');
             });
         }).on('slide', function(ev) {
-            $(this).parents('td').next('td').text(ev.value);
+	    	if($(this).data('slider-type') == -1) {
+	            $(this).parents('td').next('td').next('td').text(ev.value);
+		} else {
+	            $(this).parents('td').next('td').text(ev.value);
+		}
         });
         $('.slider-container').on('mouseover', function() {
             $(this).css('background-color', 'lightblue');

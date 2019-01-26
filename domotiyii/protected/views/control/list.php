@@ -127,7 +127,7 @@ $this->widget('bootstrap.widgets.TbNav', array(
             </div>
             <hr>
             <div class="value"><span class="slabel"><?php echo Yii::t('app', 'Value 1'); ?> : </span><div class="val1 label label-important"><?php echo $dev['val1']; ?></div></div>
-            <div class="value showAllVal"><span class="slabel"><?php echo Yii::t('app', 'Value 2'); ?> : </span><div class="val2 label label-important"><?php echo $dev['val2']; ?></div></div>
+            <div class="value showAllVal <?php ($dev['multivaluedim'] == true ? '' : 'showAllVal') ?> "><span class="slabel"><?php echo Yii::t('app', 'Value 2'); ?> : </span><div class="val2 label label-important"><?php echo $dev['val2']; ?></div></div>
             <div class="value showAllVal"><span class="slabel"><?php echo Yii::t('app', 'Value 3'); ?> : </span><div class="val3 label label-important"><?php echo $dev['val3']; ?></div></div>
             <div class="value showAllVal"><span class="slabel"><?php echo Yii::t('app', 'Value 4'); ?> : </span><div class="val4 label label-important"><?php echo $dev['val4']; ?></div></div>
             <div class="value"><span class="slabel"><?php echo Yii::t('app', 'Last Update'); ?> : </span><span class="newdataBefore"></span> <div class="lastchanged label label-info"><?php echo $dev['lastchanged']; ?></div> <span class="newdataAfter"></span></div>
@@ -328,16 +328,21 @@ $this->widget('bootstrap.widgets.TbNav', array(
                     .on('slideStop', function(ev) {
                 var action = ev.value;
                 var device = $(this).data('device');
-                if (action == 0) {
-                    action = "Off";
-                } else if (action == 100) {
-                    action = "On";
-                } else {
-                    action = "Dim " + action;
-                }
+		var sliderType = $(this).data('slider-type');
+                if (sliderType != -1 && action == 0) {
+	       	     action = "Off";
+	   	} else if (sliderType != -1 && action == 100) {
+	            action = "On";
+    	        } else {
+	            action = "Dim " + action;
+	    	}
                 deviceAction(device, action);
             }).on('slide', function(ev) {
-                $(this).parents('div.device').find('div.val1').text(ev.value);
+		if($(this).data('slider-type') == -1) {                
+			$(this).parents('div.device').find('div.val2').text(ev.value);
+		} else {
+			$(this).parents('div.device').find('div.val1').text(ev.value);
+		}
             });
         });
     }
