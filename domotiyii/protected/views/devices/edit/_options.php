@@ -1,6 +1,7 @@
      		<?php echo $form->checkBoxControlGroup($model,'switchable', array('value'=>-1)); ?>
                 <?php echo $form->checkBoxControlGroup($model,'reset', array('value'=>-1)); ?>
                 <?php echo $form->checkBoxControlGroup($model,'dimable', array('value'=>-1)); ?>
+		<?php echo $form->checkBoxControlGroup($model,'multivaluedim', array('value'=>-1)); ?>
                 <?php echo $form->checkBoxControlGroup($model,'extcode', array('value'=>-1)); ?>
                 <?php echo $form->checkBoxControlGroup($model,'hide', array('value'=>-1)); ?>
                 <?php echo $form->textFieldControlGroup($model,'resetvalue'); ?>
