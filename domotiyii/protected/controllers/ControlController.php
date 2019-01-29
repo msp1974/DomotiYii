@@ -171,7 +171,11 @@ class ControlController extends CController {
     protected function getActions($obj) {
         if (isset($obj->deviceValue1->value)) {
 	    if ($obj->multivaluedim == -1) {
-	        $tmp = str_replace('Dim ', '', $obj->deviceValue2->value);
+		if (!$obj->deviceValue2) {
+			$tmp = '0';
+		}else{
+		        $tmp = str_replace('Dim ', '', $obj->deviceValue2->value);
+		}
 	    } else {
 		$tmp = str_replace('Dim ', '', $obj->deviceValue1->value);
 	        if ($tmp == 'Off')
