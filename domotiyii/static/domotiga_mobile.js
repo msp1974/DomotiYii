@@ -54,22 +54,43 @@ $(function() {
         $(".device").each(function (){ 
             device = $(this);
             device_value = device.find(".device_status").html();
-            device_value_number = device_value.replace(/[^\d.]/g,'');
-        
-            if(device_value.indexOf("On") !==-1){
-                device_value_number = 100;
-            }else if(device_value.indexOf("Off") !==-1){
-                device_value_number = 0;
-            }
-            
-            device.find(".slider input").slider('setValue', device_value_number); 
-            if(device_value_number > 0 && device_value_number <= 100){
-                device.find("button").removeClass("btn-primary");
-                device.find("button:nth-child(2)").addClass("btn-primary");      
-            }else{
-                device.find("button").removeClass("btn-primary");
-                device.find("button:nth-child(1)").addClass("btn-primary"); 
-            }
+	    device_value_number = device_value.replace(/[^\d.]/g,'');
+ 	    
+
+	    multivaluedim = device.find(".slider input").data('multivaluedim');
+	    if (multivaluedim == -1) {
+		device_slider_value = device.find(".device_value_2").html();
+		if(device_slider_value){
+	    	    device_slider_value = device_slider_value.replace('<i class="icon-tag"></i>','');
+		    device_slider_value_number = device_slider_value.replace(/[^\d.]/g,'');
+		    console.log(device_slider_value);
+		    device.find(".slider input").slider('setValue', device_slider_value_number); 
+
+		    
+		}
+	    }else{
+		    if(device_value.indexOf("On") !==-1){
+		        device_value_number = 100;
+		    }else if(device_value.indexOf("Off") !==-1){
+		        device_value_number = 0;
+		    }
+		    
+		    device.find(".slider input").slider('setValue', device_value_number); 
+	    }
+
+	    if(device_value.indexOf("On") !==-1){
+	        device_value_number = 100;
+	    }else if(device_value.indexOf("Off") !==-1){
+	        device_value_number = 0;
+	    }
+	    
+	    if(device_value_number > 0 && device_value_number <= 100){
+	        device.find("button").removeClass("btn-primary");
+	        device.find("button:nth-child(2)").addClass("btn-primary");      
+	    }else{
+	        device.find("button").removeClass("btn-primary");
+	        device.find("button:nth-child(1)").addClass("btn-primary"); 
+	    }
         });   
     }
     
@@ -95,7 +116,7 @@ $(function() {
                         $.each( this.values,function() {
                             var device_value = device.find(".device_value_"+this.valuenum);
                             if (this.valuenum == 1){
-                              device.find(".device_status").html(this.value + " " + this.units);
+                              device.find(".device_status").html(this.value + " " + this.units );
                             }
                             
                             if ((this.value + this.units).length > 0){
@@ -145,15 +166,17 @@ $(function() {
     $(".switch_device > button").click(function() {
         device_value = $(this).html();
         device = $(this).parents(".device");
+	multivaluedim = device.find(".slider input").data('multivaluedim');
         device.find("button").removeClass("btn-primary");
         $(this).addClass("btn-primary");
         
-        if(device_value.indexOf("On") !==-1){
-            device.find(".slider input").slider('setValue', 100);
-        }else{
-            device.find(".slider input").slider('setValue', 0);
-        }
-
+	if(multivaluedim !==-1) {
+		if(device_value.indexOf("On") !==-1){
+		    device.find(".slider input").slider('setValue', 100);
+		}else{
+		    device.find(".slider input").slider('setValue', 0);
+		}
+	}
         device.find(".device_status").html(device_value);
         set_device(device.data("id"), device_value);
     });
@@ -162,19 +185,22 @@ $(function() {
     $('.slider').slider()
         .on('slideStop', function(ev){
             device_value = ev.value;
+	    multivaluedim = $(this).data('multivaluedim');
             device = $(this).parents(".device");
 
-            if( (device_value > 0 && device_value <= 100)){
-                device.find("button").removeClass("btn-primary");
-                device.find("button:nth-child(2)").addClass("btn-primary");                
-            }else{
-                device.find("button").removeClass("btn-primary");
-                device.find("button:nth-child(1)").addClass("btn-primary"); 
-            }
+	    if(multivaluedim !==-1) {
+		    if((device_value > 0 && device_value <= 100)){
+		        device.find("button").removeClass("btn-primary");
+		        device.find("button:nth-child(2)").addClass("btn-primary");                
+		    }else{
+		        device.find("button").removeClass("btn-primary");
+		        device.find("button:nth-child(1)").addClass("btn-primary"); 
+		    }
+	    }
 
-            if(device_value == 0){
+            if(multivaluedim != -1 && device_value == 0){
                 device_value = "Off";
-            }else if(device_value == 100){
+            }else if(multivaluedim != -1 && device_value == 100){
                 device_value = "On";
             }else{
                 device_value= "Dim " + device_value;

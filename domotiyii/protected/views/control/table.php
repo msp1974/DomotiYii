@@ -292,11 +292,11 @@ $this->widget('bootstrap.widgets.TbNav', array(
                 .on('slideStop', function(ev) {
             var action = ev.value;
             var device = $(this).data('device');
-	    var sliderType = $(this).data('slider-type');
+	    var multiValueDim = $(this).data('multivaluedim');
 
-	    if (sliderType != -1 && action == 0) {
+	    if (multiValueDim != -1 && action == 0) {
 	        action = "Off";
-	    } else if (sliderType != -1 && action == 100) {
+	    } else if (multiValueDim != -1 && action == 100) {
 	        action = "On";
 	    } else {
 	        action = "Dim " + action;
@@ -313,7 +313,7 @@ $this->widget('bootstrap.widgets.TbNav', array(
                 $('.lastChanged').html('DF');
             });
         }).on('slide', function(ev) {
-	    	if($(this).data('slider-type') == -1) {
+	    	if($(this).data('multivaluedim') == -1) {
 	            $(this).parents('td').next('td').next('td').text(ev.value);
 		} else {
 	            $(this).parents('td').next('td').text(ev.value);

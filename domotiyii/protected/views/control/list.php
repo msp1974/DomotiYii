@@ -328,17 +328,17 @@ $this->widget('bootstrap.widgets.TbNav', array(
                     .on('slideStop', function(ev) {
                 var action = ev.value;
                 var device = $(this).data('device');
-		var sliderType = $(this).data('slider-type');
-                if (sliderType != -1 && action == 0) {
+		var multiValueDim = $(this).data('multivaluedim');
+                if (multiValueDim != -1 && action == 0) {
 	       	     action = "Off";
-	   	} else if (sliderType != -1 && action == 100) {
+	   	} else if (multiValueDim != -1 && action == 100) {
 	            action = "On";
     	        } else {
 	            action = "Dim " + action;
 	    	}
                 deviceAction(device, action);
             }).on('slide', function(ev) {
-		if($(this).data('slider-type') == -1) {                
+		if($(this).data('multivaluedim') == -1) {                
 			$(this).parents('div.device').find('div.val2').text(ev.value);
 		} else {
 			$(this).parents('div.device').find('div.val1').text(ev.value);

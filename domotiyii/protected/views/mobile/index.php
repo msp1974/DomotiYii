@@ -107,7 +107,7 @@
             <?php endif; ?>
             <?php if($device['dimable']): ?>  
                 <div class="slider-container">
-                    <input type="text" class="slider" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide">
+                    <input type="text" class="slider" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-orientation="horizontal" data-multivaluedim="<?php echo $device['multivaluedim'] ?>" data-slider-selection="after"data-slider-tooltip="hide">
                 </div>
             <?php endif; ?>
         </div>
